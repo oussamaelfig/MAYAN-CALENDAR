@@ -16,8 +16,9 @@
 #include <stddef.h>
 
 
-main(int argc, char *argv[]) {
-    //Valider le nombre d'argument saisi par l'utilisateur
+int main(int argc, char const *argv[])
+{
+        //Valider le nombre d'argument saisi par l'utilisateur
     if(argc<=1 && argc > 3) {
         printf("Vous ne m'avez pas nourri d'arguments, ou vous m'avez trops nourri, je vais mourir maintenant :( ...");
         exit(1);
@@ -26,7 +27,9 @@ main(int argc, char *argv[]) {
     //transformer les argument de string à des Ints et les afficher
     for (int i = 0; i < argc; i++)
     {
-        printf("%i\n", atoi(argv[i])+1);
+        printf("%i\n", atoi(argv[i]));
     }
- }
+    return 0;
+}
+
 
