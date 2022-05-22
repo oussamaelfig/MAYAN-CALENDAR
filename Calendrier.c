@@ -23,64 +23,77 @@ const int false = 0;
 // Si la date est bissextile retourner 1
 int estBissextile(int y)
 {
-    if ((y % 4 == 0) && (y % 100 != 0) && (y % 400 == 0))
-        return true;
+    int result;
+
+    if (((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0))
+        result = true;
     else
-        return false;
+        result = false;
+
+    return result;
 }
 
 // Fonction qui va servir pour verifier si la date est plus petit que la date maximale
 int smaller(int d, int m, int y)
 {
+    int result = false;
+
     if (y <= max_yr)
-        return 1; // compare years
-    if (y == max_yr && m <= 10)
-        return 1; // compare months - but make sure years are equal
-    if (y == max_yr && m == 10 && d <= 12)
-        return 1; // compare days but make sure years and months are equal
-    return 0;
+        result = true; // compare years
+    else if (y == max_yr && m <= 10)
+        result = true; // compare months - but make sure years are equal
+    else if (y == max_yr && m == 10 && d <= 12)
+        result = true; // compare days but make sure years and months are equal
+    return result;
 }
 
 // Fonction qui va servir pour verifier si la date est plus grande que la date minimale
 int greater(int d, int m, int y)
 {
+    int result = false;
+
     if (y >= min_yr)
-        return 1; // compare years
-    if (y == min_yr && m >= 8)
-        return 1; // compare months - but make sure years are equal
-    if (y == min_yr && m == 8 && d >= 11)
-        return 1; // compare days but make sure years and months are equal
-    return 0;
+        result = true; // compare years
+    else if (y == min_yr && m >= 8)
+        result = true; // compare months - but make sure years are equal
+    else if (y == min_yr && m == 8 && d >= 11)
+        result = true; // compare days but make sure years and months are equal
+    return result;
 }
 
 // Fonction qui valide si la date est valide ou non
 int dateValid(int d, int m, int y)
 {
+    int result=true;
+
     // Valider si la date est entre Max et Min
-    if (!greater(d, m, y) || !smaller(d, m, y))
-        return false;
-    if (m < 1 || m > 12)
-        return false;
-    if (d < 1 || d > 31)
-        return false;
+    if (greater(d, m, y) == false || smaller(d, m, y) == false)
+        result = false;
+    else if (m < 1 || m > 12)
+        result = false;
+    else if (d < 1 || d > 31)
+        result = false;
     // On va verifier les mois dépendemment de la date
-    if (m == 2)
+    else if (m == 2)
     {
         if (estBissextile(y))
         {
             if (d <= 29)
-                return true;
+                result = true;
             else
-                return false;
+                result = false;
         }
     }
     // Avrile, Juin, Septembre et Novembre ont 30 jours
-    if (m == 4 || m == 6 || m == 9 || m == 11)
+    else if (m == 4 || m == 6 || m == 9 || m == 11){
         if (d <= 30)
-            return true;
+            result = true;
         else
-            return false;
-    return true;
+            result = false;
+    }
+    //result = true;
+
+    return result;
 }
 
 int main(int argc, char const *argv[])
