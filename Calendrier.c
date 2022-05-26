@@ -14,6 +14,7 @@
 #include <string.h>
 #include <math.h>
 #include <stddef.h>
+
 const int AN_MAX = 4772;
 const int AN_MIN = -3114;
 const int true = 1;
@@ -223,7 +224,7 @@ int dateValid(int d, int m, int y)
 */
 int trouverMoisHaab(int * nbJ)
 {
-    int cptMois = 0;
+    int cptMois = 17;
     printf("%d\n", *nbJ);
     while (*nbJ > 20)
     {
@@ -257,12 +258,13 @@ void afficherHaab(int nbJ)
     printf("test\n");
     char *nMois = malloc(10 * sizeof(char));
     printf("test\n");
+    int nbJours = nbJ;
 
-    int numMois = trouverMoisHaab(&nbJ);
+    int numMois = trouverMoisHaab(&nbJours);
     //printf("test\n");
 
     //On cree un tableau qui contient toutes les noms de mois
-    char *tabMois[18];
+    char *tabMois[19];
     tabMois[0] = "Pop";
     tabMois[1] = "Wo";
     tabMois[2] = "Sip";
@@ -281,15 +283,23 @@ void afficherHaab(int nbJ)
     tabMois[15] = "Pax";
     tabMois[16] = "K'ayab";
     tabMois[17] = "KumK'u";
+    //Periode de 5 jours qui n'est pas un mois (indice 18 du tab)
+    tabMois[18] = "Wayeb"; 
 
     nMois = tabMois[numMois];
-    printf("Haab : %i %s\n", nbJ, nMois);
+    printf("Haab : %i %s\n", nbJours, nMois);
+    /*
+    free(nMois);
+    nMois = NULL;
+    // Cause erreur car dit que memoir non alloc???
+    */
+   
 }
 
 int main(int argc, char const *argv[])
 {
     // Valider le nombre d'argument saisi par l'utilisateur
-    if (argc <= 1 && argc > 3)
+    if (argc != 4)
     {
         printf("Vous ne m'avez pas nourri d'arguments, ou vous m'avez trop nourri, je vais mourir maintenant :( ...");
         exit(1);
