@@ -37,27 +37,6 @@ enum _MOIS
     DECEMBRE
 };
 
-enum _HAAB
-{
-    POP,
-    WO,
-    SIP,
-    SOTZ,
-    SEK,
-    XUL,
-    YAXKIN,
-    MOL,
-    CHEN,
-    YAX,
-    SAK,
-    KEH,
-    MAK,
-    KANKIN,
-    MUWAN,
-    PAX,
-    KAYAB,
-    KUMKU
-};
 
 typedef enum _MOIS MOIS;
 typedef enum _HAAB HAAB;
@@ -224,24 +203,47 @@ int dateValid(int d, int m, int y)
 */
 int trouverMoisHaab(int * nbJ)
 {
+    //debute au mois Kumk'u
     int cptMois = 17;
     printf("%d\n", *nbJ);
-    while (*nbJ > 20)
+    //ajustement selon le 0.0.0.0.0
+    *nbJ += 3;
+
+    int estFini = 1;
+
+    while ((*nbJ < 5 && cptMois == 17) || estFini)
     {
-        if(cptMois > 18)
+        if(cptMois == 18 && *nbJ > 5)
         {
             ///L'ajustement pour e Wayeb
             *nbJ -= 5;
+            cptMois = 18;
+        }else if(cptMois > 18)
+        {
             cptMois = 0;
+            *nbJ -= 20;
         }
-        *nbJ -= 20;
+        else if (*nbJ < 20)
+        {
+            estFini = 0;
+        }
+        else
+        {
+            *nbJ -= 20;
+        }
         ++cptMois;
+
+       
     }
+    --cptMois;
+
     //Si jamais *nbj tombe dans une valeur negative
     if(*nbJ < 0)
     {
         *nbJ = 0;
     }
+    
+    
     printf("%d\n", *nbJ);
     printf("%d\n", cptMois);
 
@@ -255,11 +257,12 @@ int trouverMoisHaab(int * nbJ)
 */
 void afficherHaab(int nbJ)
 {
-    printf("test\n");
+    //printf("test\n");
     char *nMois = malloc(10 * sizeof(char));
-    printf("test\n");
+    //printf("test\n");
+    //afin de ne pas modifier le vrai nbJours, on fait une copie
     int nbJours = nbJ;
-
+    char *moisCN;
     int numMois = trouverMoisHaab(&nbJours);
     //printf("test\n");
 
@@ -284,9 +287,13 @@ void afficherHaab(int nbJ)
     tabMois[16] = "K'ayab";
     tabMois[17] = "KumK'u";
     //Periode de 5 jours qui n'est pas un mois (indice 18 du tab)
-    tabMois[18] = "Wayeb"; 
+    tabMois[18] = "Wayeb";
 
     nMois = tabMois[numMois];
+    // ajout char null a la fin
+    moisCN = malloc((strlen(nMois) + 1) * sizeof(char));
+    strcpy(moisCN,nMois);
+    // Affichage
     printf("Haab : %i %s\n", nbJours, nMois);
     /*
     free(nMois);
