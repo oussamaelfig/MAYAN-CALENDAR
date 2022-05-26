@@ -36,7 +36,30 @@ enum _MOIS
     DECEMBRE
 };
 
+enum _HAAB
+{
+    POP,
+    WO,
+    SIP,
+    SOTZ,
+    SEK,
+    XUL,
+    YAXKIN,
+    MOL,
+    CHEN,
+    YAX,
+    SAK,
+    KEH,
+    MAK,
+    KANKIN,
+    MUWAN,
+    PAX,
+    KAYAB,
+    KUMKU
+};
+
 typedef enum _MOIS MOIS;
+typedef enum _HAAB HAAB;
 
 // Fonction qui verifie si la date est bissextile ou pas
 // Si la date est bissextile retourner 1
@@ -55,14 +78,14 @@ int estBissextile(int y)
 /*
     Fonction qui calcule le nombre de jour qui est ecoules depuis le 11 aout -3114
     En tenant compte des années bissextiles.
-    La valeur retournee est le nombre de jour ecoules (int).
+    La valeur retournee est le nombre de jour ecoules (int jTotal).
 */
 int nbJoursTotal(int jour, int mois, int annee)
 {
     int jTotal = 0;
     int boucleAnnee = AN_MIN;
     int boucleMois = AOUT;
-    // Boucle qui ajoute le bon nb de jours selon l'année
+    // Boucle qui ajoute le bon nb de jours selon l'année (bissextile ou pas)
     while (boucleAnnee < annee - 1)
     {
         if (estBissextile(boucleAnnee))
@@ -75,8 +98,9 @@ int nbJoursTotal(int jour, int mois, int annee)
         }
         ++boucleAnnee;
     }
-    //car dans le calcul on compte une annee "0". Elle doit etre retiree car elle n'existe pas
-    if(annee > 0){
+    // car dans le calcul on compte une annee "0". Elle doit etre retiree car elle n'existe pas
+    if (annee > 0)
+    {
         jTotal -= 365;
     }
 
@@ -84,44 +108,43 @@ int nbJoursTotal(int jour, int mois, int annee)
     while (boucleMois != mois)
     {
         ++boucleMois;
-        if(boucleMois > 12){
+        if (boucleMois > 12)
+        {
             boucleMois = 1;
         }
         switch (boucleMois)
         {
-        case JANVIER:
-        case MARS:
-        case MAI:
-        case JUILLET:
-        case AOUT:
-        case OCTOBRE:
-        case DECEMBRE:
-            jTotal += 31;
-            break;
-        case AVRIL:
-        case JUIN:
-        case SEPTEMBRE:
-        case NOVEMBRE:
-            jTotal += 30;
-            break;
-        case FEVRIER:
-            if (estBissextile(annee))
-            {
-                jTotal += 29;
-            }
-            else
-            {
-                jTotal += 28;
-            }
-            break;
-        default:
-            printf("Le defaut pour le mois.");
-            break;
+            case JANVIER:
+            case MARS:
+            case MAI:
+            case JUILLET:
+            case AOUT:
+            case OCTOBRE:
+            case DECEMBRE:
+                jTotal += 31;
+                break;
+            case AVRIL:
+            case JUIN:
+            case SEPTEMBRE:
+            case NOVEMBRE:
+                jTotal += 30;
+                break;
+            case FEVRIER:
+                if (estBissextile(annee))
+                {
+                    jTotal += 29;
+                }
+                else
+                {
+                    jTotal += 28;
+                }
+                break;
+            default:
+                printf("Le defaut pour le mois.");
+                break;
         }
-        
-
     }
-    //ajustement car la date de debut est le onze de aout
+    // ajustement car la date de debut est le onze de aout
     jTotal += jour - 11;
 
     return jTotal;
@@ -191,6 +214,78 @@ int dateValid(int d, int m, int y)
     return result;
 }
 
+
+/*
+    Fonction qui trouve le numero qui est associe au mois Haab
+    a partir du enum _HAAB.
+    Prend en argument un int * nbJ afin de pouvoir modifier le nbJ. (nbJ par reference)
+    Retourne le numero du mois correspondant.
+*/
+int trouverMoisHaab(int * nbJ)
+{
+    int cptMois = 0;
+    printf("%d\n", *nbJ);
+    while (*nbJ > 20)
+    {
+        if(cptMois > 18)
+        {
+            ///L'ajustement pour e Wayeb
+            *nbJ -= 5;
+            cptMois = 0;
+        }
+        *nbJ -= 20;
+        ++cptMois;
+    }
+    //Si jamais *nbj tombe dans une valeur negative
+    if(*nbJ < 0)
+    {
+        *nbJ = 0;
+    }
+    printf("%d\n", *nbJ);
+    printf("%d\n", cptMois);
+
+    return cptMois;
+}
+
+/*
+    Fonction void qui est responsable d'afficher la date convertie en
+    format en Haab.
+    Prend en argument en int nbJ qui le nombre de jours depuis le 11 aout -3114.
+*/
+void afficherHaab(int nbJ)
+{
+    printf("test\n");
+    char *nMois = malloc(10 * sizeof(char));
+    printf("test\n");
+
+    int numMois = trouverMoisHaab(&nbJ);
+    //printf("test\n");
+
+    //On cree un tableau qui contient toutes les noms de mois
+    char *tabMois[18];
+    tabMois[0] = "Pop";
+    tabMois[1] = "Wo";
+    tabMois[2] = "Sip";
+    tabMois[3] = "Sotz";
+    tabMois[4] = "Sek";
+    tabMois[5] = "Xul";
+    tabMois[6] = "Yaxk'in";
+    tabMois[7] = "Mol";
+    tabMois[8] = "Ch'en";
+    tabMois[9] = "Yax";
+    tabMois[10] = "Sak";
+    tabMois[11] = "Keh";
+    tabMois[12] = "Mak";
+    tabMois[13] = "K'ank'in";
+    tabMois[14] = "Muwan";
+    tabMois[15] = "Pax";
+    tabMois[16] = "K'ayab";
+    tabMois[17] = "KumK'u";
+
+    nMois = tabMois[numMois];
+    printf("Haab : %i %s\n", nbJ, nMois);
+}
+
 int main(int argc, char const *argv[])
 {
     // Valider le nombre d'argument saisi par l'utilisateur
@@ -223,9 +318,9 @@ int main(int argc, char const *argv[])
         printf("La date n'est pas valide !\n");
         exit(-1);
     }
+    int nbJours = nbJoursTotal(jours, mois, annee);
+    printf("%i\n", nbJours);
     printf("test\n");
-    int nb = nbJoursTotal(jours, mois, annee);
-    printf("%i\n", nb);
-
+    afficherHaab(nbJours);
     return 0;
 }
