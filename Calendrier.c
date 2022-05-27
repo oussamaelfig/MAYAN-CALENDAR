@@ -298,14 +298,16 @@ void afficherHaab(int nbJ)
     */
 }
 
+//*********************************COMPTE LONG*************************************
+
 void compteLong(int nbJourEcoules)
 {
 
     int d, baktun, katun, tun, uinal, kin;
-    //pour que le test 29 août 683 et 20 décembre 2012 
-    //marchent il faut que
-    //j'additionne d = nbJourEcoules+365;
-    d = nbJourEcoules+365;
+    // pour que le test 29 août 683 et 20 décembre 2012
+    // marchent il faut que
+    // j'additionne d = nbJourEcoules+365;
+    d = nbJourEcoules + 365;
     baktun = d / 144000;
     d %= 144000;
     katun = d / 7200;
@@ -316,6 +318,24 @@ void compteLong(int nbJourEcoules)
     kin = d % 20;
 
     printf("%d.%d.%d.%d.%d", baktun, katun, tun, uinal, kin);
+}
+
+//*********************************TZOLKIN*************************************
+
+void tzolkin(int nbJourEcoules)
+{
+    //Pour que 20 décembre 2012 marche faux travailler avec (nbJourEcoules+366)
+    //Pour que 29 août 683 marche faux travailler avec (nbJourEcoules+365)
+    //11 août -3114 et 1 janvier 2000 marchent bien
+    int nombre;
+    int nom;
+    char arr[20][15] = {"Imix", "Ik", "Akbal", "Kan", "Chicchan", "Cimi", "Manik", "Lamat", "Muluc", "Oc", "Chuen", "Eb", "Ben", "Ix", "Men", "Cib",
+                                                   "Caban", "Etznab", "Cauac", "Ahau"};
+    nombre = (((nbJourEcoules+365 + 3) % 13) + 1);
+
+    nom = ((nbJourEcoules+365 + 19) % 20);
+
+    printf("Tzolk'in : %d %s", nombre,arr[nom]);
 }
 
 int main(int argc, char const *argv[])
@@ -360,5 +380,7 @@ int main(int argc, char const *argv[])
 
     printf("Compte Long : ");
     compteLong(nbJours);
+    printf("\n\n");
+    tzolkin(nbJours);
     return 0;
 }
