@@ -64,8 +64,15 @@ int nbJoursTotal(int jour, int mois, int annee)
     int jTotal = 0;
     int boucleAnnee = AN_MIN;
     int boucleMois = AOUT;
+
+    // car dans le calcul on compte une annee "0". Elle doit etre retiree car elle n'existe pas
+    if (annee > 0)
+    {
+        jTotal -= 365;
+    }
+
     // Boucle qui ajoute le bon nb de jours selon l'année (bissextile ou pas)
-    while (boucleAnnee < annee - 1)
+    while (boucleAnnee < annee )//- 1)
     {
         if (estBissextile(boucleAnnee))
         {
@@ -77,16 +84,11 @@ int nbJoursTotal(int jour, int mois, int annee)
         }
         ++boucleAnnee;
     }
-    // car dans le calcul on compte une annee "0". Elle doit etre retiree car elle n'existe pas
-    if (annee > 0)
-    {
-        jTotal -= 365;
-    }
 
     // Boucle qui ajoute le nombre de jours pour chaque mois jusqu'a arriver au mois entre en argument.
     while (boucleMois != mois)
     {
-        ++boucleMois;
+        
         if (boucleMois > 12)
         {
             boucleMois = 1;
@@ -122,6 +124,7 @@ int nbJoursTotal(int jour, int mois, int annee)
             printf("Le defaut pour le mois.");
             break;
         }
+        ++boucleMois;
     }
     // ajustement car la date de debut est le onze de aout
     jTotal += jour - 11;
@@ -253,14 +256,11 @@ int trouverMoisHaab(int *nbJ)
 */
 void afficherHaab(int nbJ)
 {
-    // printf("test\n");
     char *nMois = malloc(10 * sizeof(char));
-    // printf("test\n");
     // afin de ne pas modifier le vrai nbJours, on fait une copie
     int nbJours = nbJ;
     char *moisCN;
     int numMois = trouverMoisHaab(&nbJours);
-    // printf("test\n");
 
     // On cree un tableau qui contient toutes les noms de mois
     char *tabMois[19];
