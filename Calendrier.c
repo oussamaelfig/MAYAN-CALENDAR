@@ -37,7 +37,6 @@ enum _MOIS
     DECEMBRE
 };
 
-
 typedef enum _MOIS MOIS;
 typedef enum _HAAB HAAB;
 
@@ -94,34 +93,34 @@ int nbJoursTotal(int jour, int mois, int annee)
         }
         switch (boucleMois)
         {
-            case JANVIER:
-            case MARS:
-            case MAI:
-            case JUILLET:
-            case AOUT:
-            case OCTOBRE:
-            case DECEMBRE:
-                jTotal += 31;
-                break;
-            case AVRIL:
-            case JUIN:
-            case SEPTEMBRE:
-            case NOVEMBRE:
-                jTotal += 30;
-                break;
-            case FEVRIER:
-                if (estBissextile(annee))
-                {
-                    jTotal += 29;
-                }
-                else
-                {
-                    jTotal += 28;
-                }
-                break;
-            default:
-                printf("Le defaut pour le mois.");
-                break;
+        case JANVIER:
+        case MARS:
+        case MAI:
+        case JUILLET:
+        case AOUT:
+        case OCTOBRE:
+        case DECEMBRE:
+            jTotal += 31;
+            break;
+        case AVRIL:
+        case JUIN:
+        case SEPTEMBRE:
+        case NOVEMBRE:
+            jTotal += 30;
+            break;
+        case FEVRIER:
+            if (estBissextile(annee))
+            {
+                jTotal += 29;
+            }
+            else
+            {
+                jTotal += 28;
+            }
+            break;
+        default:
+            printf("Le defaut pour le mois.");
+            break;
         }
     }
     // ajustement car la date de debut est le onze de aout
@@ -194,31 +193,31 @@ int dateValid(int d, int m, int y)
     return result;
 }
 
-
 /*
     Fonction qui trouve le numero qui est associe au mois Haab
     a partir du enum _HAAB.
     Prend en argument un int * nbJ afin de pouvoir modifier le nbJ. (nbJ par reference)
     Retourne le numero du mois correspondant.
 */
-int trouverMoisHaab(int * nbJ)
+int trouverMoisHaab(int *nbJ)
 {
-    //debute au mois Kumk'u
+    // debute au mois Kumk'u
     int cptMois = 17;
     printf("%d\n", *nbJ);
-    //ajustement selon le 0.0.0.0.0
+    // ajustement selon le 0.0.0.0.0
     *nbJ += 3;
 
     int estFini = 1;
 
     while ((*nbJ < 5 && cptMois == 17) || estFini)
     {
-        if(cptMois == 18 && *nbJ > 5)
+        if (cptMois == 18 && *nbJ > 5)
         {
-            ///L'ajustement pour e Wayeb
+            /// L'ajustement pour e Wayeb
             *nbJ -= 5;
             cptMois = 18;
-        }else if(cptMois > 18)
+        }
+        else if (cptMois > 18)
         {
             cptMois = 0;
             *nbJ -= 20;
@@ -232,18 +231,15 @@ int trouverMoisHaab(int * nbJ)
             *nbJ -= 20;
         }
         ++cptMois;
-
-       
     }
     --cptMois;
 
-    //Si jamais *nbj tombe dans une valeur negative
-    if(*nbJ < 0)
+    // Si jamais *nbj tombe dans une valeur negative
+    if (*nbJ < 0)
     {
         *nbJ = 0;
     }
-    
-    
+
     printf("%d\n", *nbJ);
     printf("%d\n", cptMois);
 
@@ -257,16 +253,16 @@ int trouverMoisHaab(int * nbJ)
 */
 void afficherHaab(int nbJ)
 {
-    //printf("test\n");
+    // printf("test\n");
     char *nMois = malloc(10 * sizeof(char));
-    //printf("test\n");
-    //afin de ne pas modifier le vrai nbJours, on fait une copie
+    // printf("test\n");
+    // afin de ne pas modifier le vrai nbJours, on fait une copie
     int nbJours = nbJ;
     char *moisCN;
     int numMois = trouverMoisHaab(&nbJours);
-    //printf("test\n");
+    // printf("test\n");
 
-    //On cree un tableau qui contient toutes les noms de mois
+    // On cree un tableau qui contient toutes les noms de mois
     char *tabMois[19];
     tabMois[0] = "Pop";
     tabMois[1] = "Wo";
@@ -286,13 +282,13 @@ void afficherHaab(int nbJ)
     tabMois[15] = "Pax";
     tabMois[16] = "K'ayab";
     tabMois[17] = "KumK'u";
-    //Periode de 5 jours qui n'est pas un mois (indice 18 du tab)
+    // Periode de 5 jours qui n'est pas un mois (indice 18 du tab)
     tabMois[18] = "Wayeb";
 
     nMois = tabMois[numMois];
     // ajout char null a la fin
     moisCN = malloc((strlen(nMois) + 1) * sizeof(char));
-    strcpy(moisCN,nMois);
+    strcpy(moisCN, nMois);
     // Affichage
     printf("Haab : %i %s\n", nbJours, nMois);
     /*
@@ -300,7 +296,26 @@ void afficherHaab(int nbJ)
     nMois = NULL;
     // Cause erreur car dit que memoir non alloc???
     */
-   
+}
+
+void compteLong(int nbJourEcoules)
+{
+
+    int d, baktun, katun, tun, uinal, kin;
+    //pour que le test 29 août 683 et 20 décembre 2012 
+    //marchent il faut que
+    //j'additionne d = nbJourEcoules+365;
+    d = nbJourEcoules+365;
+    baktun = d / 144000;
+    d %= 144000;
+    katun = d / 7200;
+    d %= 7200;
+    tun = d / 360;
+    d %= 360;
+    uinal = d / 20;
+    kin = d % 20;
+
+    printf("%d.%d.%d.%d.%d", baktun, katun, tun, uinal, kin);
 }
 
 int main(int argc, char const *argv[])
@@ -339,5 +354,11 @@ int main(int argc, char const *argv[])
     printf("%i\n", nbJours);
     printf("test\n");
     afficherHaab(nbJours);
+
+    printf("Le nombre de jours ecoule est : %d\n\n\n", nbJoursTotal(12, 3, 208));
+    printf("Le nombre de jours ecoule est : %d\n\n\n", nbJours);
+
+    printf("Compte Long : ");
+    compteLong(nbJours);
     return 0;
 }
