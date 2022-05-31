@@ -22,9 +22,7 @@ const int false = 0;
 
 enum _MOIS
 {
-    //mois bidon pour que les indices de mois debute a 1
-    BIDON,
-    JANVIER,
+    JANVIER = 1,
     FEVRIER,
     MARS,
     AVRIL,
@@ -80,17 +78,18 @@ int nbJoursTotal(int jour, int mois, int annee)
     // Boucle qui ajoute le bon nb de jours selon l'année (bissextile ou pas)
     while (boucleAnnee < annee )//- 1)
     {
-        if (estBissextile(boucleAnnee))
+        if (estBissextile(boucleAnnee + 1))
         {
             jTotal += 366;
+           // printf("nb jours : %i", 366);
         }
         else
         {
             jTotal += 365;
+            //printf("nb jours : %i", 365);
         }
         ++boucleAnnee;
     }
-
     // Boucle qui ajoute le nombre de jours pour chaque mois jusqu'a arriver au mois entre en argument.
     while (boucleMois != mois)
     {
@@ -127,7 +126,7 @@ int nbJoursTotal(int jour, int mois, int annee)
             }
             break;
         default:
-            printf("Le defaut pour le mois.");
+            fprintf(stderr, "Le defaut pour le mois.");
             break;
         }
     }
@@ -200,6 +199,8 @@ int dateValid(int d, int m, int y)
 
     return result;
 }
+
+//*********************************HAAB*************************************
 
 /*
     Fonction qui trouve le numero qui est associe au mois Haab
