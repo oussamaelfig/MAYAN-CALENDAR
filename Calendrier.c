@@ -22,6 +22,7 @@ const int false = 0;
 
 enum _MOIS
 {
+    //mois bidon pour que les indices de mois debute a 1
     BIDON,
     JANVIER,
     FEVRIER,
@@ -93,7 +94,7 @@ int nbJoursTotal(int jour, int mois, int annee)
     // Boucle qui ajoute le nombre de jours pour chaque mois jusqu'a arriver au mois entre en argument.
     while (boucleMois != mois)
     {
-        
+        ++boucleMois;
         if (boucleMois > 12)
         {
             boucleMois = 1;
@@ -129,7 +130,6 @@ int nbJoursTotal(int jour, int mois, int annee)
             printf("Le defaut pour le mois.");
             break;
         }
-        ++boucleMois;
     }
     // ajustement car la date de debut est le onze de aout
     jTotal += jour - 11;
@@ -213,7 +213,7 @@ int trouverMoisHaab(int *nbJ)
     int cptMois = 17;
     printf("%d\n", *nbJ);
     // ajustement selon le 0.0.0.0.0
-    *nbJ += 3;
+    *nbJ += 8;
 
     int estFini = 1;
 
@@ -221,13 +221,13 @@ int trouverMoisHaab(int *nbJ)
     {
         if (cptMois == 18 && *nbJ > 5)
         {
-            /// L'ajustement pour e Wayeb
+            /// L'ajustement pour le Wayeb
             *nbJ -= 5;
-            cptMois = 18;
+            cptMois = -1;
         }
         else if (cptMois > 18)
         {
-            cptMois = 0;
+            cptMois = -1;
             *nbJ -= 20;
         }
         else if (*nbJ < 20)
@@ -243,10 +243,10 @@ int trouverMoisHaab(int *nbJ)
     --cptMois;
 
     // Si jamais *nbj tombe dans une valeur negative
-    if (*nbJ < 0)
+    /*if (*nbJ < 0)
     {
         *nbJ = 0;
-    }
+    }*/
 
     printf("%d\n", *nbJ);
     printf("%d\n", cptMois);
