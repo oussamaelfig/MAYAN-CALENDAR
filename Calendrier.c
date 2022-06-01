@@ -22,8 +22,7 @@ const int false = 0;
 
 enum _MOIS
 {
-    BIDON,
-    JANVIER,
+    JANVIER = 1,
     FEVRIER,
     MARS,
     AVRIL,
@@ -46,8 +45,7 @@ int estBissextile(int y)
 {
     int result;
 
-    if (y < 0)
-    {
+    if(y < 0 ){
         y += 1;
     }
     if (((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0))
@@ -72,22 +70,32 @@ int nbJoursTotal(int jour, int mois, int annee)
     int boucleAnnee = AN_MIN;
     int boucleMois = AOUT;
 
-    // car dans le calcul on compte une annee "0". Elle doit etre retiree car elle n'existe pas
-    if (annee > 0)
-    {
-        jTotal -= 365;
+    //ajustement du mois de base selon si le mois entre est plus petit que AOUTs
+    if(mois < AOUT){
+        boucleMois = JANVIER;
+        jTotal += 153;
+        boucleAnnee += 1;
+    }else{
+        if(estBissextile(annee)){
+            jTotal += 1;
+        }
     }
 
     // Boucle qui ajoute le bon nb de jours selon l'année (bissextile ou pas)
-    while (boucleAnnee < annee) //- 1)
+    while ( boucleAnnee < annee )
     {
         if (estBissextile(boucleAnnee))
         {
             jTotal += 366;
+           // printf("nb jours : %i", 366);
         }
         else
         {
             jTotal += 365;
+            //printf("nb jours : %i", 365);
+        }
+        if(boucleAnnee + 1 == 0){
+            boucleAnnee += 2;
         }
         ++boucleAnnee;
     }
@@ -95,14 +103,9 @@ int nbJoursTotal(int jour, int mois, int annee)
     // Boucle qui ajoute le nombre de jours pour chaque mois jusqu'a arriver au mois entre en argument.
     while (boucleMois != mois)
     {
-
-        if (boucleMois > 12)
-        {
-            boucleMois = 1;
-        }
         switch (boucleMois)
         {
-        case JANVIER:
+        case JANVIER: 
         case MARS:
         case MAI:
         case JUILLET:
@@ -128,13 +131,22 @@ int nbJoursTotal(int jour, int mois, int annee)
             }
             break;
         default:
-            printf("Le defaut pour le mois.");
+            fprintf(stderr, "Le defaut pour le mois.");
             break;
         }
+        
         ++boucleMois;
+
+        if (boucleMois > 12)
+        {
+            boucleMois = 1;
+        }
+        
     }
-    // ajustement car la date de debut est le onze de aout
+    
     jTotal += jour - 11;
+
+    
 
     return jTotal;
 }
@@ -158,9 +170,9 @@ int greater(int d, int m, int y)
 {
     int result = false;
 
-    if (y >= AN_MIN)
+    if (y > AN_MIN)
         result = true; // compare years
-    else if (y == AN_MIN && m >= 8)
+    else if (y == AN_MIN && m > 8)
         result = true; // compare months - but make sure years are equal
     else if (y == AN_MIN && m == 8 && d >= 11)
         result = true; // compare days but make sure years and months are equal
@@ -203,6 +215,8 @@ int dateValid(int d, int m, int y)
     return result;
 }
 
+//*********************************HAAB*************************************
+
 /*
     Fonction qui trouve le numero qui est associe au mois Haab
     a partir du enum _HAAB.
@@ -215,7 +229,7 @@ int trouverMoisHaab(int *nbJ)
     int cptMois = 17;
     printf("%d\n", *nbJ);
     // ajustement selon le 0.0.0.0.0
-    *nbJ += 3;
+    *nbJ += 8;
 
     int estFini = 1;
 
@@ -223,13 +237,13 @@ int trouverMoisHaab(int *nbJ)
     {
         if (cptMois == 18 && *nbJ > 5)
         {
-            /// L'ajustement pour e Wayeb
+            /// L'ajustement pour le Wayeb
             *nbJ -= 5;
-            cptMois = 18;
+            cptMois = -1;
         }
         else if (cptMois > 18)
         {
-            cptMois = 0;
+            cptMois = -1;
             *nbJ -= 20;
         }
         else if (*nbJ < 20)
@@ -245,13 +259,10 @@ int trouverMoisHaab(int *nbJ)
     --cptMois;
 
     // Si jamais *nbj tombe dans une valeur negative
-    if (*nbJ < 0)
+    /*if (*nbJ < 0)
     {
         *nbJ = 0;
-    }
-
-    printf("%d\n", *nbJ);
-    printf("%d\n", cptMois);
+    }*/
 
     return cptMois;
 }
@@ -384,7 +395,7 @@ int main(int argc, char const *argv[])
     printf("test\n");
     afficherHaab(nbJours);
 
-    printf("Le nombre de jours ecoule est : %d\n\n\n", nbJoursTotal(20, 12, 2011));
+    //printf("Le nombre de jours ecoule est : %d\n\n\n", nbJoursTotal(12, 3, 208));
     printf("Le nombre de jours ecoule est : %d\n\n\n", nbJours);
 
     printf("Compte Long : ");
