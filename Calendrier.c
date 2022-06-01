@@ -355,9 +355,9 @@ void tzolkin(int nbJourEcoules)
     int nom;
     char arr[20][15] = {"Imix", "Ik", "Akbal", "Kan", "Chicchan", "Cimi", "Manik", "Lamat", "Muluc", "Oc", "Chuen", "Eb", "Ben", "Ix", "Men", "Cib",
                         "Caban", "Etznab", "Cauac", "Ahau"};
-    nombre = (((nbJourEcoules+365 + 3) % 13) + 1);
+    nombre = (((nbJourEcoules + 3) % 13) + 1);
 
-    nom = ((nbJourEcoules+365 + 19) % 20);
+    nom = ((nbJourEcoules + 19) % 20);
 
     printf("Tzolk'in : %d %s", nombre, arr[nom]);
 }
