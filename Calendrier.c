@@ -46,13 +46,15 @@ int estBissextile(int y)
 {
     int result;
 
-    if(y < 0){
+    if (y < 0)
+    {
         y += 1;
     }
     if (((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0))
     {
         result = true;
-    }else
+    }
+    else
     {
         result = false;
     }
@@ -77,7 +79,7 @@ int nbJoursTotal(int jour, int mois, int annee)
     }
 
     // Boucle qui ajoute le bon nb de jours selon l'année (bissextile ou pas)
-    while (boucleAnnee < annee )//- 1)
+    while (boucleAnnee < annee) //- 1)
     {
         if (estBissextile(boucleAnnee))
         {
@@ -93,7 +95,7 @@ int nbJoursTotal(int jour, int mois, int annee)
     // Boucle qui ajoute le nombre de jours pour chaque mois jusqu'a arriver au mois entre en argument.
     while (boucleMois != mois)
     {
-        
+
         if (boucleMois > 12)
         {
             boucleMois = 1;
@@ -312,7 +314,9 @@ void compteLong(int nbJourEcoules)
     // pour que le test 29 août 683 et 20 décembre 2012
     // marchent il faut que
     // j'additionne d = nbJourEcoules+365;
-    d = nbJourEcoules + 365;
+    //d+=365;
+    //d = nbJourEcoules + 365;
+    d=nbJourEcoules;
     baktun = d / 144000;
     d %= 144000;
     katun = d / 7200;
@@ -329,18 +333,18 @@ void compteLong(int nbJourEcoules)
 
 void tzolkin(int nbJourEcoules)
 {
-    //Pour que 20 décembre 2012 marche faux travailler avec (nbJourEcoules+366)
-    //Pour que 29 août 683 marche faux travailler avec (nbJourEcoules+365)
-    //11 août -3114 et 1 janvier 2000 marchent bien
+    // Pour que 20 décembre 2012 marche faux travailler avec (nbJourEcoules+366)
+    // Pour que 29 août 683 marche faux travailler avec (nbJourEcoules+365)
+    // 11 août -3114 et 1 janvier 2000 marchent bien
     int nombre;
     int nom;
     char arr[20][15] = {"Imix", "Ik", "Akbal", "Kan", "Chicchan", "Cimi", "Manik", "Lamat", "Muluc", "Oc", "Chuen", "Eb", "Ben", "Ix", "Men", "Cib",
-                                                   "Caban", "Etznab", "Cauac", "Ahau"};
-    nombre = (((nbJourEcoules+365 + 3) % 13) + 1);
+                        "Caban", "Etznab", "Cauac", "Ahau"};
+    nombre = (((nbJourEcoules + 3) % 13) + 1);
 
-    nom = ((nbJourEcoules+365 + 19) % 20);
+    nom = ((nbJourEcoules + 19) % 20);
 
-    printf("Tzolk'in : %d %s", nombre,arr[nom]);
+    printf("Tzolk'in : %d %s", nombre, arr[nom]);
 }
 
 int main(int argc, char const *argv[])
@@ -380,7 +384,7 @@ int main(int argc, char const *argv[])
     printf("test\n");
     afficherHaab(nbJours);
 
-    printf("Le nombre de jours ecoule est : %d\n\n\n", nbJoursTotal(12, 3, 208));
+    printf("Le nombre de jours ecoule est : %d\n\n\n", nbJoursTotal(20, 12, 2011));
     printf("Le nombre de jours ecoule est : %d\n\n\n", nbJours);
 
     printf("Compte Long : ");
