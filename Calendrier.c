@@ -81,6 +81,10 @@ int nbJoursTotal(int jour, int mois, int annee)
         }
     }
 
+    if(annee > 1){
+        jTotal += 365;
+    }
+
     // Boucle qui ajoute le bon nb de jours selon l'année (bissextile ou pas)
     while ( boucleAnnee < annee )
     {
