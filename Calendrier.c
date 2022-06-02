@@ -41,8 +41,11 @@ enum _MOIS
 typedef enum _MOIS MOIS;
 typedef enum _HAAB HAAB;
 
-// Fonction qui verifie si la date est bissextile ou pas
-// Si la date est bissextile retourner 1
+/*
+    Fonction qui verifie si la date est bissextile ou pas
+    Entree = int y qui est l'annee a analyser
+    return int result (true si la date est bissextile sinon false)
+*/
 int estBissextile(int y)
 {
     int result;
@@ -65,7 +68,8 @@ int estBissextile(int y)
 /*
     Fonction qui calcule le nombre de jour qui est ecoules depuis le 11 aout -3114
     En tenant compte des années bissextiles.
-    La valeur retournee est le nombre de jour ecoules (int jTotal).
+    Entrees => int jour, int mois, int annee (les arguments entres par l'utilisateur)
+    return le nombre de jour ecoules (int jTotal).
 */
 int nbJoursTotal(int jour, int mois, int annee)
 {
@@ -158,9 +162,11 @@ int nbJoursTotal(int jour, int mois, int annee)
     return jTotal;
 }
 
-// Fonction qui va servir pour verifier si la date est plus petit que la date maximale
-// Entree = int jour, int mois, int annee (qui sont les arguments entres par l'utilisateur)
-// return true ou false selon la validite de la date
+/* 
+    Fonction qui va servir pour verifier si la date est plus petit que la date maximale
+    Entree = int jour, int mois, int annee (qui sont les arguments entres par l'utilisateur)
+    return true ou false selon la validite de la date
+*/
 int smaller(int d, int m, int y)
 {
     int result = false;
@@ -174,9 +180,11 @@ int smaller(int d, int m, int y)
     return result;
 }
 
-// Fonction qui va servir pour verifier si la date est plus grande que la date minimale
-// Entree = int jour, int mois, int annee (qui sont les arguments entres par l'utilisateur)
-// return true ou false selon la validite de la date
+/* 
+    Fonction qui va servir pour verifier si la date est plus grande que la date minimale
+    Entree = int jour, int mois, int annee (qui sont les arguments entres par l'utilisateur)
+    return true ou false selon la validite de la date
+*/
 int greater(int d, int m, int y)
 {
     int result = false;
@@ -190,7 +198,11 @@ int greater(int d, int m, int y)
     return result;
 }
 
-// Fonction qui valide si la date est valide ou non
+/*
+    Fonction qui valide si la date est valide ou non
+    Entree = int jour, int mois, int annee (qui sont les arguments entres par l'utilisateur)
+    return int result (boolean true si valide sinon false)
+*/
 int dateValid(int d, int m, int y)
 {
     int result = true;
@@ -272,7 +284,7 @@ int trouverMoisHaab(int *nbJ)
 }
 
 /*
-    Fonction void qui est responsable d'afficher la date convertie en
+    Procedure void qui est responsable d'afficher la date convertie en
     format en Haab.
     Prend en argument en int nbJ qui le nombre de jours depuis le 11 aout -3114.
 */
@@ -316,7 +328,11 @@ void afficherHaab(int nbJ)
 }
 
 //*********************************COMPTE LONG*************************************
-
+/*
+    Procedure void qui est responsable de convertir et d'afficher la date convertie en
+    format en compte long.
+    Prend en argument en int nbJ qui le nombre de jours depuis le 11 aout -3114.
+*/
 void compteLong(int nbJourEcoules)
 {
 
@@ -340,7 +356,11 @@ void compteLong(int nbJourEcoules)
 }
 
 //*********************************TZOLKIN*************************************
-
+/*
+    Procedure void qui est responsable de convertir et d'afficher la date convertie en
+    format en Tzolkin.
+    Prend en argument en int nbJ qui le nombre de jours depuis le 11 aout -3114.
+*/
 void tzolkin(int nbJourEcoules)
 {
     // Pour que 20 décembre 2012 marche faux travailler avec (nbJourEcoules+366)
@@ -357,6 +377,7 @@ void tzolkin(int nbJourEcoules)
     printf("Tzolk'in : %d %s\n", nombre, arr[nom]);
 }
 
+//MAIN
 int main(int argc, char const *argv[])
 {
     // Valider le nombre d'argument saisi par l'utilisateur
