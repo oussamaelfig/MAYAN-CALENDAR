@@ -99,12 +99,10 @@ int nbJoursTotal(int jour, int mois, int annee)
         if (estBissextile(boucleAnnee))
         {
             jTotal += 366;
-            // printf("nb jours : %i", 366);
         }
         else
         {
             jTotal += 365;
-            // printf("nb jours : %i", 365);
         }
         if (boucleAnnee + 1 == 0)
         {
@@ -240,7 +238,6 @@ int trouverMoisHaab(int *nbJ)
 {
     // debute au mois Kumk'u
     int cptMois = 17;
-    printf("%d\n", *nbJ);
     // ajustement selon le 0.0.0.0.0
     *nbJ += 8;
 
