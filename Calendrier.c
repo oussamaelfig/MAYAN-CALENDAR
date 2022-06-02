@@ -15,11 +15,13 @@
 #include <math.h>
 #include <stddef.h>
 
+// constantes
 const int AN_MAX = 4772;
 const int AN_MIN = -3114;
 const int true = 1;
 const int false = 0;
 
+// Tous les mois dans un enum
 enum _MOIS
 {
     JANVIER = 1,
@@ -45,7 +47,8 @@ int estBissextile(int y)
 {
     int result;
 
-    if(y < 0 ){
+    if (y < 0)
+    {
         y += 1;
     }
     if (((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0))
@@ -70,35 +73,41 @@ int nbJoursTotal(int jour, int mois, int annee)
     int boucleAnnee = AN_MIN;
     int boucleMois = AOUT;
 
-    //ajustement du mois de base selon si le mois entre est plus petit que AOUTs
-    if(mois < AOUT){
+    // ajustement du mois de base selon si le mois entre est plus petit que AOUTs
+    if (mois < AOUT)
+    {
         boucleMois = JANVIER;
         jTotal += 153;
         boucleAnnee += 1;
-    }else{
-        if(estBissextile(annee)){
+    }
+    else
+    {
+        if (estBissextile(annee))
+        {
             jTotal += 1;
         }
     }
 
-    if(annee > 1){
+    if (annee > 1)
+    {
         jTotal += 365;
     }
 
     // Boucle qui ajoute le bon nb de jours selon l'année (bissextile ou pas)
-    while ( boucleAnnee < annee )
+    while (boucleAnnee < annee)
     {
         if (estBissextile(boucleAnnee))
         {
             jTotal += 366;
-           // printf("nb jours : %i", 366);
+            // printf("nb jours : %i", 366);
         }
         else
         {
             jTotal += 365;
-            //printf("nb jours : %i", 365);
+            // printf("nb jours : %i", 365);
         }
-        if(boucleAnnee + 1 == 0){
+        if (boucleAnnee + 1 == 0)
+        {
             boucleAnnee += 2;
         }
         ++boucleAnnee;
@@ -109,7 +118,7 @@ int nbJoursTotal(int jour, int mois, int annee)
     {
         switch (boucleMois)
         {
-        case JANVIER: 
+        case JANVIER:
         case MARS:
         case MAI:
         case JUILLET:
@@ -138,48 +147,48 @@ int nbJoursTotal(int jour, int mois, int annee)
             fprintf(stderr, "Le defaut pour le mois.");
             break;
         }
-        
+
         ++boucleMois;
 
         if (boucleMois > 12)
         {
             boucleMois = 1;
         }
-        
     }
-    
+
     jTotal += jour - 11;
-
-    
-
     return jTotal;
 }
 
 // Fonction qui va servir pour verifier si la date est plus petit que la date maximale
+// Entree = int jour, int mois, int annee (qui sont les arguments entres par l'utilisateur)
+// return true ou false selon la validite de la date
 int smaller(int d, int m, int y)
 {
     int result = false;
 
-    if (y <= AN_MAX)
-        result = true; // compare years
-    else if (y == AN_MAX && m <= 10)
-        result = true; // compare months - but make sure years are equal
+    if (y < AN_MAX)
+        result = true;
+    else if (y == AN_MAX && m < 10)
+        result = true;
     else if (y == AN_MAX && m == 10 && d <= 12)
-        result = true; // compare days but make sure years and months are equal
+        result = true;
     return result;
 }
 
 // Fonction qui va servir pour verifier si la date est plus grande que la date minimale
+// Entree = int jour, int mois, int annee (qui sont les arguments entres par l'utilisateur)
+// return true ou false selon la validite de la date
 int greater(int d, int m, int y)
 {
     int result = false;
 
     if (y > AN_MIN)
-        result = true; // compare years
+        result = true;
     else if (y == AN_MIN && m > 8)
-        result = true; // compare months - but make sure years are equal
+        result = true;
     else if (y == AN_MIN && m == 8 && d >= 11)
-        result = true; // compare days but make sure years and months are equal
+        result = true;
     return result;
 }
 
@@ -262,12 +271,6 @@ int trouverMoisHaab(int *nbJ)
     }
     --cptMois;
 
-    // Si jamais *nbj tombe dans une valeur negative
-    /*if (*nbJ < 0)
-    {
-        *nbJ = 0;
-    }*/
-
     return cptMois;
 }
 
@@ -313,11 +316,6 @@ void afficherHaab(int nbJ)
     strcpy(moisCN, nMois);
     // Affichage
     printf("Haab : %i %s\n", nbJours, nMois);
-    /*
-    free(nMois);
-    nMois = NULL;
-    // Cause erreur car dit que memoir non alloc???
-    */
 }
 
 //*********************************COMPTE LONG*************************************
@@ -329,9 +327,9 @@ void compteLong(int nbJourEcoules)
     // pour que le test 29 août 683 et 20 décembre 2012
     // marchent il faut que
     // j'additionne d = nbJourEcoules+365;
-    //d+=365;
+    // d+=365;
     d = nbJourEcoules + 365;
-    d=nbJourEcoules;
+    d = nbJourEcoules;
     baktun = d / 144000;
     d %= 144000;
     katun = d / 7200;
@@ -341,7 +339,7 @@ void compteLong(int nbJourEcoules)
     uinal = d / 20;
     kin = d % 20;
 
-    printf("%d.%d.%d.%d.%d", baktun, katun, tun, uinal, kin);
+    printf("Compte Long : %d.%d.%d.%d.%d\n", baktun, katun, tun, uinal, kin);
 }
 
 //*********************************TZOLKIN*************************************
@@ -359,7 +357,7 @@ void tzolkin(int nbJourEcoules)
 
     nom = ((nbJourEcoules + 19) % 20);
 
-    printf("Tzolk'in : %d %s", nombre, arr[nom]);
+    printf("Tzolk'in : %d %s\n", nombre, arr[nom]);
 }
 
 int main(int argc, char const *argv[])
@@ -367,7 +365,7 @@ int main(int argc, char const *argv[])
     // Valider le nombre d'argument saisi par l'utilisateur
     if (argc != 4)
     {
-        printf("Vous ne m'avez pas nourri d'arguments, ou vous m'avez trop nourri, je vais mourir maintenant :( ...");
+        printf("Vous devez rentrer trois arguments seulement! (jj dd aaaa)\n");
         exit(1);
     }
 
@@ -383,28 +381,14 @@ int main(int argc, char const *argv[])
         annee = atoi(argv[3]);
     }
 
-    if (dateValid(jours, mois, annee) == true)
-    {
-        printf("Le jours est :%i\n", jours);
-        printf("Le mois est :%i\n", mois);
-        printf("L'annee est :%i\n", annee);
-    }
-    else
+    if (!dateValid(jours, mois, annee))
     {
         printf("La date n'est pas valide !\n");
         exit(-1);
     }
     int nbJours = nbJoursTotal(jours, mois, annee);
-    printf("%i\n", nbJours);
-    printf("test\n");
     afficherHaab(nbJours);
-
-    //printf("Le nombre de jours ecoule est : %d\n\n\n", nbJoursTotal(12, 3, 208));
-    printf("Le nombre de jours ecoule est : %d\n\n\n", nbJours);
-
-    printf("Compte Long : ");
     compteLong(nbJours);
-    printf("\n\n");
     tzolkin(nbJours);
     return 0;
 }
