@@ -167,7 +167,7 @@ int nbJoursTotal(int jour, int mois, int annee)
     Entree = int jour, int mois, int annee (qui sont les arguments entres par l'utilisateur)
     return true ou false selon la validite de la date
 */
-int smaller(int d, int m, int y)
+int plusPetit(int d, int m, int y)
 {
     int result = false;
 
@@ -185,7 +185,7 @@ int smaller(int d, int m, int y)
     Entree = int jour, int mois, int annee (qui sont les arguments entres par l'utilisateur)
     return true ou false selon la validite de la date
 */
-int greater(int d, int m, int y)
+int plusGrand(int d, int m, int y)
 {
     int result = false;
 
@@ -208,7 +208,7 @@ int dateValid(int d, int m, int y)
     int result = true;
 
     // Valider si la date est entre Max et Min
-    if (greater(d, m, y) == false || smaller(d, m, y) == false)
+    if (plusGrand(d, m, y) == false || plusPetit(d, m, y) == false)
         result = false;
     else if (m < 1 || m > 12)
         result = false;
